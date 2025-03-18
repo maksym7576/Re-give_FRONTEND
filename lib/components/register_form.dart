@@ -1,0 +1,61 @@
+import 'package:flutter/material.dart';
+import '../service/auth_service.dart';
+
+class RegisterForm extends StatefulWidget {
+  @override
+  _RegisterFormState createState() => _RegisterFormState();
+}
+
+class _RegisterFormState extends State<RegisterForm> {
+  final AuthService _authService = AuthService();
+  final _formKey = GlobalKey<FormState>();
+  String email = '';
+  String password = '';
+  String message = '';
+  String? token;
+
+  void _submit() async {
+    if (_formKey.currentState!.validate()) {
+      try {
+        final result = await _authService.register(email, password);
+        setState(() {
+          token = result['token'];
+          message = 'Registration successful! Token stored.';
+        });
+      } catch (e) {
+        setState(() {
+          message = 'Registration failed: $e';
+        });
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: EdgeInsets.all(16.0),
+      child: Form(
+          key: _formKey,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Email'),
+                onChanged: (val) => email = val,
+                validator: (val) => val!.isEmpty ? 'Please enter the email' : null,
+              ),
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Password'),
+                obscureText: true,
+                onChanged: (val) => password = val,
+                validator: (val) => val!.isEmpty ? 'Please enter the password' : null,
+              ),
+              SizedBox(height: 20),
+              ElevatedButton(onPressed: _submit, child: Text('Register')),
+              SizedBox(height: 20),
+              Text(message),
+            ],
+          )),
+    );
+  }
+}
