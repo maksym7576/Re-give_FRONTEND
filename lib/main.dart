@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:re_give_frontend/screens/main_screen.dart';
-import 'screens/main_screen.dart';
+import 'package:re_give_frontend/navigators/AppRouter.dart';
 
 void main() {
   runApp(MyApp());
@@ -11,7 +10,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Secure Auth Demo',
-      home: MainScreen(),
+      initialRoute: '/',
+      onGenerateRoute: AppRouter.generateRoute,
     );
   }
 }
