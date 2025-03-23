@@ -1,13 +1,14 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import '../api_config.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class AuthService {
-  //TODO find the correct api
-  final String apiUrl = 'http://localhost:5001/library-project-af8ca/us-central1/api';
+  final FlutterSecureStorage secureStorage = FlutterSecureStorage();
 
   Future<Map<String, dynamic>> register(String email, String password) async {
     final response = await http.post(
-      Uri.parse('$apiUrl/register'),
+      Uri.parse('${ApiConfig.baseUrl}/register'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'password': password}),
     );
@@ -20,7 +21,7 @@ class AuthService {
   
   Future<Map<String, dynamic>> login(String email, String password) async {
     final response = await http.post(
-      Uri.parse('$apiUrl/login'),
+      Uri.parse('${ApiConfig.baseUrl}/login'),
       headers: {'Content-Type': 'application/json'},
       body: jsonEncode({'email': email, 'password': password}),
     );
