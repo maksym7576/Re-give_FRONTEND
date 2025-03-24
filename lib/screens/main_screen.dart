@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../service/order_service.dart';
+import '../service/product_service.dart';
 import '../components/product_component.dart';
 
 class MainScreen extends StatefulWidget {
@@ -10,13 +10,13 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
-  final OrderService orderService = OrderService();
+  final ProductService productService = ProductService();
   late Future<List<Map<String, dynamic>>> futureProducts;
 
   @override
   void initState() {
     super.initState();
-    futureProducts = orderService.fetchAllProducts();
+    futureProducts = productService.fetchAllProducts();
   }
 
   @override
