@@ -43,3 +43,8 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# Ignore all Flutter-generated files in Linux, macOS, and Windows
+linux/flutter/
+macos/Flutter/
+windows/flutter/

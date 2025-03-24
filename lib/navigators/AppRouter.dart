@@ -10,19 +10,19 @@ class AppRouter {
   static const String _tokenExpiryKey = 'token_expiry';
 
   static Future<bool> isAuthenticated() async {
-    String? token = await _secureStorage.read(key: _tokenKey);
-    String? expiryTimeString = await _secureStorage.read(key: _tokenExpiryKey);
-    if (token == null || expiryTimeString == null) {
-      print('Token or "expire time" is null');
-      return false;
-    }
-
-    DateTime expiryTime = DateTime.parse(expiryTimeString);
-    if (DateTime.now().isAfter(expiryTime)) {
-      print('Token is expired');
-      return false;
-    }
-    print('Login or register made perfect');
+    // String? token = await _secureStorage.read(key: _tokenKey);
+    // String? expiryTimeString = await _secureStorage.read(key: _tokenExpiryKey);
+    // if (token == null || expiryTimeString == null) {
+    //   print('Token or "expire time" is null');
+    //   return false;
+    // }
+    //
+    // DateTime expiryTime = DateTime.parse(expiryTimeString);
+    // if (DateTime.now().isAfter(expiryTime)) {
+    //   print('Token is expired');
+    //   return false;
+    // }
+    // print('Login or register made perfect');
     return true;
   }
 
