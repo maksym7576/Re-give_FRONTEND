@@ -13,4 +13,21 @@ class OrderService {
       throw Exception('Failed to load orders');
     }
   }
+
+  Future<String> createAnOrder(String productId, String userUid) async {
+    try {
+      final body = json.encode({
+        'productId': productId,
+        'userId': userUid,
+      });
+      await http.post(
+        Uri.parse('${ApiConfig.baseUrl}/orders/create'),
+        headers: {'Content-Type': 'application/json'},
+        body: body,
+      );
+        return "Order created";
+    } catch (e) {
+      return "Error occurred";
+    }
+  }
 }

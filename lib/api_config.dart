@@ -1,4 +1,4 @@
 
 class ApiConfig {
-  static const String baseUrl = 'http://127.0.0.1:5001/library-project-af8ca/us-central1/api';
+  static const String baseUrl = 'https://api-zdp7bbrq4a-uc.a.run.app';
 }

@@ -52,6 +52,8 @@ class AppRouter {
               return HomePage();
             case '/auth':
               return AuthScreen();
+            case 'main':
+              return MainScreen();
             default:
               return Scaffold(
                 body: Center(child: Text('No route defined for ${settings.name}')),
