@@ -22,6 +22,7 @@ class _LoginFormState extends State<LoginForm> {
           token = result['token'];
           message = 'Login successful! Token stored.';
         });
+        Navigator.pushReplacementNamed(context, '/');
       } catch (e) {
         setState(() {
           message = 'Login failed: $e';

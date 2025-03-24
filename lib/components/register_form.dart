@@ -22,6 +22,7 @@ class _RegisterFormState extends State<RegisterForm> {
           token = result['token'];
           message = 'Registration successful! Token stored.';
         });
+        Navigator.pushReplacementNamed(context, '/');
       } catch (e) {
         setState(() {
           message = 'Registration failed: $e';
