@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "134976989222",
+    "project_id": "library-project-af8ca",
+    "storage_bucket": "library-project-af8ca.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134976989222:android:a010e3245eb2d244221ee7",
+        "android_client_info": {
+          "package_name": "com.example.re_give_frontend"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIl-hOkfJ20-K2p8F09XKZ544pkFwF3e4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
