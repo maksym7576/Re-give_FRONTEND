@@ -51,4 +51,10 @@ class AuthService {
         value: expiryDate.toIso8601String(),
       );
     }
+
+    Future<String?> getUserUID() async {
+      final SharedPreferences preferences = await SharedPreferences.getInstance();
+      return preferences.getString('user_uid');
+    }
+
 }
