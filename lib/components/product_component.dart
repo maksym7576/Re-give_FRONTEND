@@ -1,22 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:re_give_frontend/service/auth_service.dart';
 import 'package:re_give_frontend/service/order_service.dart';
 
 class ProductComponent extends StatelessWidget {
   final Map<String, dynamic> product;
   final OrderService orderService = OrderService();
-  final AuthService authService = AuthService();
 
   ProductComponent({Key? key, required this.product}) : super(key: key);
 
   Future<void> _handleOrder(BuildContext context) async {
-    String? userUid = await authService.getUserUID();
-    if(userUid == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('User id not authorized')),
-      );
-      return;
-    }
     String? productId = product['id'];
     if (productId == null || productId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -24,7 +15,7 @@ class ProductComponent extends StatelessWidget {
       );
       return;
     }
-    String response = await orderService.createAnOrder(productId, userUid);
+    String response = await orderService.createAnOrder(productId);
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(response)),
     );
