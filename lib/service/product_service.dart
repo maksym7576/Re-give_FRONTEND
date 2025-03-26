@@ -16,6 +16,26 @@ class ProductService {
     }
   }
 
+  Future<Map<String, dynamic>> createProduct(Map<String, dynamic> productData) async {
+    String? token = await authService.getToken();
+
+    final response = await http.post(
+      Uri.parse('https://createproduct-zdp7bbrq4a-uc.a.run.app'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: json.encode(productData),
+    );
+
+    if (response.statusCode == 201) {
+      Map<String, dynamic> jsonData = json.decode(response.body);
+      return jsonData;
+    } else {
+      throw Exception('Error creating product: ${response.body}');
+    }
+  }
+
   Future<List<Map<String, dynamic>>> fetchUserProducts() async {
     String? token = await authService.getToken();
     final response = await http.get(
@@ -30,6 +50,24 @@ class ProductService {
       return jsonData.cast<Map<String, dynamic>>();
     } else {
       throw Exception('Error loading user products: ${response.body}');
+    }
+  }
+
+  Future<Map<String, dynamic>> updateProduct(String productId, Map<String, dynamic> productData) async {
+    String? token = await authService.getToken();
+    final response = await http.put(
+      Uri.parse('https://updateproduct-zdp7bbrq4a-uc.a.run.app/$productId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: json.encode(productData),
+    );
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonData = json.decode(response.body);
+      return jsonData;
+    } else {
+      throw Exception('Error updating product: ${response.body}');
     }
   }
 
@@ -49,26 +87,6 @@ class ProductService {
       return jsonData['message'];
     } else {
       throw Exception('Error deleting product: ${response.body}');
-    }
-  }
-
-  Future<Map<String, dynamic>> createProduct(Map<String, dynamic> productData) async {
-    String? token = await authService.getToken();
-
-    final response = await http.post(
-      Uri.parse('https://createproduct-zdp7bbrq4a-uc.a.run.app'),
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': 'Bearer $token',
-      },
-      body: json.encode(productData),
-    );
-
-    if (response.statusCode == 201) {
-      Map<String, dynamic> jsonData = json.decode(response.body);
-      return jsonData;
-    } else {
-      throw Exception('Error creating product: ${response.body}');
     }
   }
 }
