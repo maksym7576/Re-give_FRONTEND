@@ -111,4 +111,8 @@ class AuthService {
       value: expiryDate.toIso8601String(),
     );
   }
+
+  Future<String?> getToken() async {
+    return await secureStorage.read(key: 'auth_token');
+  }
 }
