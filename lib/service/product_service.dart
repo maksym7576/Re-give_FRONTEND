@@ -32,4 +32,43 @@ class ProductService {
       throw Exception('Error loading user products: ${response.body}');
     }
   }
+
+  Future<String> deleteProduct(String productId) async {
+    String? token = await authService.getToken();
+
+    final response = await http.delete(
+      Uri.parse('https://deleteproduct-zdp7bbrq4a-uc.a.run.app/$productId'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> jsonData = json.decode(response.body);
+      return jsonData['message'];
+    } else {
+      throw Exception('Error deleting product: ${response.body}');
+    }
+  }
+
+  Future<Map<String, dynamic>> createProduct(Map<String, dynamic> productData) async {
+    String? token = await authService.getToken();
+
+    final response = await http.post(
+      Uri.parse('https://createproduct-zdp7bbrq4a-uc.a.run.app'),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $token',
+      },
+      body: json.encode(productData),
+    );
+
+    if (response.statusCode == 201) {
+      Map<String, dynamic> jsonData = json.decode(response.body);
+      return jsonData;
+    } else {
+      throw Exception('Error creating product: ${response.body}');
+    }
+  }
 }
