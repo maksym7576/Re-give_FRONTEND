@@ -20,29 +20,110 @@ class ProductComponent extends StatelessWidget {
       SnackBar(content: Text(response)),
     );
   }
+
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.all(8.0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      elevation: 4,
-      child: Column(
-        children: [
-          ListTile(
-            leading: product['imageUrl'] !=null && product['imageUrl'].isNotEmpty
-                ? Image.network(product['imageUrl'], width: 50, height: 50, fit: BoxFit.cover)
-                : Icon(Icons.image_not_supported),
-            title: Text(product['name'], style: TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text(product['description']),
+    return Center(
+      child: Container(
+        width: 500,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(color: Colors.grey.withOpacity(0.2), blurRadius: 4, spreadRadius: 1),
+          ],
+        ),
+        margin: const EdgeInsets.only(bottom: 16.0),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundImage: NetworkImage('https://images.ctfassets.net/23aumh6u8s0i/4TsG2mTRrLFhlQ9G1m19sC/4c9f98d56165a0bdd71cbe7b9c2e2484/flutter'),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Username',
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    '26.01.2025',
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: Colors.grey,
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 3),
+              Text(
+                product['name'] ?? 'without name',
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                product['description'] ?? 'without description',
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: Colors.grey,
+                ),
+              ),
+              const SizedBox(height: 3),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  height: 300,
+                  width: 500,
+                  decoration: BoxDecoration(
+                    color: product['imageUrl'] == null || product['imageUrl'] == ''
+                        ? Colors.grey[300]
+                        : null,
+                    image: product['imageUrl'] != null && product['imageUrl'] != ''
+                        ? DecorationImage(
+                      image: NetworkImage(product['imageUrl']),
+                      fit: BoxFit.cover,
+                    )
+                        : null,
+                  ),
+                  child: product['imageUrl'] == null || product['imageUrl'] == ''
+                      ? Center(
+                    child: Text(
+                      'No Image',
+                      style: TextStyle(color: Colors.grey[600], fontSize: 16),
+                    ),
+                  )
+                      : null,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Align(
+                alignment: Alignment.centerRight,
+                child: ElevatedButton(
+                  onPressed: () => _handleOrder(context),
+                  child: const Text('Order'),
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-          Padding(
-              padding: const EdgeInsets.all(8.0),
-            child: ElevatedButton(
-                onPressed: () => _handleOrder(context),
-              child: Text('Ask'),
-            ),
-          )
-        ],
+        ),
       ),
     );
   }
