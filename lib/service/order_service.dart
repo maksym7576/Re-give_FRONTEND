@@ -7,7 +7,7 @@ class OrderService {
   final AuthService authService = AuthService();
 
   // Future<List<Map<String, dynamic>>> fetchAllOrdersByUserUid() async {
-  //   final response = await http.get(Uri.parse('${ApiConfig.baseUrl}/products'));
+  //   final response = await http.get(Uri.parse('https://getallorderswithproductsbyuseruid-zdp7bbrq4a-uc.a.run.app'));
   //   if(response.statusCode == 200) {
   //     List<dynamic> jsonData = json.decode(response.body);
   //     return jsonData.cast<Map<String, dynamic>>();
@@ -24,7 +24,7 @@ class OrderService {
         'userId': userUid,
       });
       await http.post(
-        Uri.parse('${ApiConfig.baseUrl}/orders/create'),
+        Uri.parse('https://createorder-zdp7bbrq4a-uc.a.run.app'),
         headers: {'Content-Type': 'application/json'},
         body: body,
       );
@@ -36,7 +36,7 @@ class OrderService {
 
   Future<List<Map<String, dynamic>>> fetchAllOrdersByUserUid() async {
     final userUid = await authService.getUserUID();
-    final response = await http.get(Uri.parse('${ApiConfig.baseUrl}/orders/get/with-products/$userUid'));
+    final response = await http.get(Uri.parse('https://getallorderswithproductsbyuseruid-zdp7bbrq4a-uc.a.run.app/${userUid}'));
 
     if (response.statusCode == 200) {
       List<dynamic> jsonData = json.decode(response.body);

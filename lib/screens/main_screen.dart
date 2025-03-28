@@ -24,26 +24,29 @@ class _MainScreenState extends State<MainScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Product List')),
-      body: FutureBuilder<List<Map<String, dynamic>>>(
-        future: futureProducts,
-        builder: (context, snapshot) {
-          if(snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError || snapshot.data!.isEmpty) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return const Center(child: Text('No products available'));
-          }
+      // appBar: AppBar(title: const Text('Product List')),
+      body: Container(
+        color: Colors.white,
+        child: FutureBuilder<List<Map<String, dynamic>>>(
+          future: futureProducts,
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError || snapshot.data!.isEmpty) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+              return const Center(child: Text('No products available'));
+            }
 
-          List<Map<String, dynamic>> products = snapshot.data!;
-          return ListView.builder(
-                itemCount: products.length,
-                itemBuilder: (context, index) {
-                  return ProductComponent(product: products[index]);
+            List<Map<String, dynamic>> products = snapshot.data!;
+            return ListView.builder(
+              itemCount: products.length,
+              itemBuilder: (context, index) {
+                return ProductComponent(product: products[index]);
+              },
+            );
           },
-          );
-        },
+        ),
       ),
     );
   }
