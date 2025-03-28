@@ -1,94 +1,106 @@
 import 'package:flutter/material.dart';
-import 'package:re_give_frontend/service/product_service.dart';
 
 class ManageProductsComponent extends StatelessWidget {
   final Map<String, dynamic> product;
-  final VoidCallback onProductDeleted;
 
-  const ManageProductsComponent({
-    Key? key,
-    required this.product,
-    required this.onProductDeleted,
-  }) : super(key: key);
-
-  void _deleteProduct(BuildContext context) async {
-    try {
-      await ProductService().deleteProduct(product['id']);
-      onProductDeleted();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("Product deleted successfully")),
-      );
-    } catch (e) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("Error deleting product: $e")),
-      );
-    }
-  }
-
-  void _showUpdateProductDialog(BuildContext context) {
-    TextEditingController nameController = TextEditingController(text: product['name']);
-    TextEditingController descriptionController = TextEditingController(text: product['description']);
-    TextEditingController imageUrlController = TextEditingController(text: product['imageUrl']);
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text("Update Product"),
-          content: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextField(controller: nameController, decoration: const InputDecoration(labelText: "Name")),
-                TextField(controller: descriptionController, decoration: const InputDecoration(labelText: "Description")),
-                TextField(controller: imageUrlController, decoration: const InputDecoration(labelText: "Image URL")),
-              ],
-            ),
-          ),
-          actions: [
-            TextButton(onPressed: () => Navigator.pop(context), child: const Text("Cancel")),
-            ElevatedButton(
-              onPressed: () async {
-                if (nameController.text.isEmpty || descriptionController.text.isEmpty || imageUrlController.text.isEmpty) {
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please fill all fields")));
-                  return;
-                }
-                Map<String, dynamic> updatedProduct = {
-                  "name": nameController.text,
-                  "description": descriptionController.text,
-                  "imageUrl": imageUrlController.text,
-                };
-                try {
-                  await ProductService().updateProduct(product['id'], updatedProduct);
-                  Navigator.pop(context);
-                  onProductDeleted();
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Product updated successfully")));
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text("Error updating product: $e")));
-                }
-              },
-              child: const Text("Update"),
-            ),
-          ],
-        );
-      },
-    );
-  }
+  ManageProductsComponent({Key? key, required this.product}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: ListTile(
-        leading: product['imageUrl'] != null && product['imageUrl'].isNotEmpty
-            ? Image.network(product['imageUrl'], width: 50, height: 50, fit: BoxFit.cover)
-            : const Icon(Icons.image, size: 50, color: Colors.grey),
-        title: Text(product['name']),
-        subtitle: Text(product['description']),
-        trailing: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            IconButton(icon: const Icon(Icons.edit, color: Colors.blue), onPressed: () => _showUpdateProductDialog(context)),
-            IconButton(icon: const Icon(Icons.delete, color: Colors.red), onPressed: () => _deleteProduct(context)),
+    return Center(
+      child: Container(
+        width: 300,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(10),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.withOpacity(0.2),
+              blurRadius: 4,
+              spreadRadius: 1,
+            ),
           ],
+        ),
+        margin: const EdgeInsets.only(bottom: 16.0),
+        child: Padding(
+          padding: const EdgeInsets.all(12.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: 3),
+              Text(
+                product['name'] ?? 'without name',
+                textAlign: TextAlign.left,
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+              const SizedBox(height: 4),
+              Text(
+                product['description'] ?? 'without description',
+                style: const TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+              const SizedBox(height: 3),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                child: Container(
+                  height: 200,
+                  width: 300,
+                  decoration: BoxDecoration(
+                    color:
+                        product['imageUrl'] == null || product['imageUrl'] == ''
+                            ? Colors.grey[300]
+                            : null,
+                    image:
+                        product['imageUrl'] != null && product['imageUrl'] != ''
+                            ? DecorationImage(
+                              image: NetworkImage(product['imageUrl']),
+                              fit: BoxFit.cover,
+                            )
+                            : null,
+                  ),
+                  child:
+                      product['imageUrl'] == null || product['imageUrl'] == ''
+                          ? Center(
+                            child: Text(
+                              'No Image',
+                              style: TextStyle(
+                                color: Colors.grey[600],
+                                fontSize: 16,
+                              ),
+                            ),
+                          )
+                          : null,
+                ),
+              ),
+              const SizedBox(height: 12),
+              Align(
+                alignment: Alignment.centerRight,
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          '26.01.2025',
+                          style: TextStyle(fontSize: 12, color: Colors.grey),
+                        ),
+                      ),
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.edit, color: Colors.blue),
+                      onPressed: () {},
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.delete, color: Colors.red),
+                      onPressed: () {},
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
